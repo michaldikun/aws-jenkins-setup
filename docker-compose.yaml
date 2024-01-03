@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  jenkins: 
+    hostname: jenkins 
+    build: 
+      context: .
+      args:
+        HOST_DOCKER_GID: 998
+    volumes:
+    - jenkins_home:/var/jenkins_home
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
+    depends_on:
+      - gitlab
+    restart: always
+    ports:
+    - 8080:8080
+    - 5000:5000
+    networks:
+      - cowsay
+
+  gitlab:
+    hostname: gitlab
+    image: gitlab/gitlab-ce
+    volumes:
+    - gitlab_config:/etc/gitlab
+    - gitlab_log:/var/log/gitlab
+    - gitlab_data:/var/opt/gitlab
+    restart: always 
+    ports:
+    - 80:80
+    networks:
+      - cowsay
+    
+
+networks:
+  cowsay:
+    name: cowsay
+volumes:
+        jenkins_home:
+        gitlab_config:
+        gitlab_data:
+        gitlab_log:
+
+
+
