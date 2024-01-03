@@ -1,2 +1,3 @@
 .DS_Store  
-instructions-cowsay-dockerization.txt
+init_cowsay.sh
+/cowsay-michal/
